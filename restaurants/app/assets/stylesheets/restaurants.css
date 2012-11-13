@@ -6,18 +6,32 @@ body { height: 100%; margin: 0; padding: 0;
  font-family: arial; }
 #map_wrapper, #map_canvas { height: 100%; }
 
-#tweets {
+#tweets_wrapper {
   position: absolute;
   right: 160px;
   top: 0;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.7);
   color: #000000;
-  width: 260px;
+  width: 250px;
   overflow-x: hidden;
 }
 
+h1 {
+  text-align: center;
+  font-size: 180%;
+  font-weight: normal;
+  padding-top: 20px;
+}
+
+#footer {
+  position: absolute;
+  text-align: right;
+  bottom: 15px;
+  right: 15px;
+  font-size: 90%;
+}
 .tweet {
-    padding: 15px 30px;
+    padding: 15px 20px;
 }
 
