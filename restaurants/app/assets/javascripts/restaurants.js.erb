@@ -2,7 +2,9 @@
 * Makes the initial call to load the restaurant data JSON when the page finishes loading.
 */
 
-function loadScript() {
+
+
+$(document).ready(function() {
   $.ajax({
   url: 'rest_data',
   dataType: 'text',
@@ -10,11 +12,8 @@ function loadScript() {
     var rests = JSON.parse(data);
     make_rests_map(rests);
   }
+}) 
 });
-
-}
-
-window.onload = loadScript;
 
 /*
  * Initializes a Google map of the Berkeley area and takes a JSON of restaurant data as collected from Factual
