@@ -4,6 +4,9 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile ~/.gitignore_global
 
+# Application Specific
+/app/views/layouts/application.html.erb
+
 # Ignore bundler config
 /.bundle
 
