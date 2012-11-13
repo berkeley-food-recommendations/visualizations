@@ -8,8 +8,9 @@ class RestaurantsController < ApplicationController
   end
 
   def get_tweets
-    @text = params[:rest_id]
-    render :partial => "/restaurants/tweets.json"
+    name = params[:rest_name]
+    rest_tweets = RestaurantTweet.find_all_by_restaurant(name)
+    render :json => rest_tweets.map { |rest_tweet| {"text" => rest_tweet.tweet } }
   end
 
 end
