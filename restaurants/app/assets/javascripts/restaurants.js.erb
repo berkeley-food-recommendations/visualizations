@@ -61,13 +61,12 @@ function make_rests_map(rests) {
          icon: image,
          shape: shape,
          shadow: shadow,
-         rest_id: rest.factual_id
          });
      markers.push(marker);
      marker.setMap(map);
 
      google.maps.event.addListener(marker, 'click', function() {
-        click_pin(this.rest_id);
+        click_pin(this.title);
      });
   }
   console.log("finished markers");
@@ -82,7 +81,7 @@ function click_pin(rest_id) {
     console.log("Id was " + rest_id);
     $.ajax({
         url: "get_tweets",
-        data: {"rest_id": rest_id},
+        data: {"rest_name": rest_id},
         dataType: "json",
         success: function(data) {
             update_tweets(data);
