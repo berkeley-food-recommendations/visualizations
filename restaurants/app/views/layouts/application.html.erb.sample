@@ -4,7 +4,7 @@
   <title>Restaurants</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?v=3&key=KEY_HERE&sensor=true">
+            src="https://maps.googleapis.com/maps/api/js?v=3&key=KEY_HERE&sensor=false">
     </script>
    <%= javascript_include_tag "application" %>
    <%= csrf_meta_tags %>

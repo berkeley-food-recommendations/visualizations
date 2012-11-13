@@ -1,21 +1,20 @@
 // Place all the styles related to the Restaurants controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-html { height: 100% }
-body { height: 100%; margin: 0; padding: 0; font-family: "tahoma";}
-#map_canvas { height: 100% }
-#map-wrapper {
-    float: left;
-    height: 400px;
-    width: 400px;
-}
+html { height: 100%; }
+body { height: 100%; margin: 0; padding: 0; 
+ font-family: arial; }
+#map_wrapper, #map_canvas { height: 100%; }
 
 #tweets {
-    float: left;
-    width: 400px;
-    height: 200px;
-    overflow-x: hidden;
-    border: 1px solid #252525;
+  position: absolute;
+  right: 160px;
+  top: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #000000;
+  width: 260px;
+  overflow-x: hidden;
 }
 
 .tweet {
