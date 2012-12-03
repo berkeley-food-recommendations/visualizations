@@ -7,5 +7,7 @@ class CreateInstagrams < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :instagrams, :restaurant
+
   end
 end

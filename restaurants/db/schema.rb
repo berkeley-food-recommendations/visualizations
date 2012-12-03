@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121113050819) do
+ActiveRecord::Schema.define(:version => 20121203190049) do
+
+  create_table "instagrams", :force => true do |t|
+    t.text     "url"
+    t.text     "caption"
+    t.string   "restaurant"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "restaurant_tweets", :force => true do |t|
     t.string   "restaurant"
