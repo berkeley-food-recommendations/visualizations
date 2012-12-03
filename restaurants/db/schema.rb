@@ -17,9 +17,13 @@ ActiveRecord::Schema.define(:version => 20121203190049) do
     t.text     "url"
     t.text     "caption"
     t.string   "restaurant"
+    t.string   "username"
+    t.float    "taken_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "instagrams", ["restaurant"], :name => "index_instagrams_on_restaurant"
 
   create_table "restaurant_tweets", :force => true do |t|
     t.string   "restaurant"
@@ -27,5 +31,7 @@ ActiveRecord::Schema.define(:version => 20121203190049) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "restaurant_tweets", ["restaurant"], :name => "index_restaurant_tweets_on_restaurant"
 
 end

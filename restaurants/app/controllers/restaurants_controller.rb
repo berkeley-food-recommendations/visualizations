@@ -15,8 +15,8 @@ class RestaurantsController < ApplicationController
 
   def get_instagrams
     name = params[:rest_name]
-    rest_instas = Instagram.find_all_by_restaurant(name)
-    render :json => rest_instas.map { |insta| {"caption" => insta.caption, "url" => insta.url} }
+    rest_instas = Instagram.find_all_by_restaurant(name, :order => 'taken_at asc')
+    render :json => rest_instas.map { |insta| {"caption" => insta.caption, "url" => insta.url, "username" => insta.username} }
   end
 
 end
