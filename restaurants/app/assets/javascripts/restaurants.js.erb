@@ -75,16 +75,23 @@ function make_rests_map(rests) {
 }
 
 /*
- * Handles the AJAX request to retrieve a restaurant's most recent tweets when a pin is selected.
+ * Handles the AJAX request to retrieve a restaurant's most recent tweets and instagrams when a pin is selected.
  */
 function click_pin(rest_id) {
-    console.log("Id was " + rest_id);
     $.ajax({
         url: "get_tweets",
         data: {"rest_name": rest_id},
         dataType: "json",
         success: function(data) {
             update_tweets(data);
+        }
+    });
+    $.ajax( {
+        url: "get_instagrams",
+        data: {"rest_name": rest_id},
+        dataType: "json",
+        success: function(data) {
+            update_instas(data);
         }
     });
 }
@@ -100,6 +107,20 @@ function update_tweets(tweets) {
         new_tweets += tweet;
     }
     $('#tweets').html(new_tweets);
+}
+
+/*
+ * Processes the instagram data fetched for a particular restaurant.
+ */
+function update_instas(data) {
+    $('#instas').html('');
+    instas = ""
+    for (var i = 0; i < data.length; i++) {
+        insta = "<div class='insta_caption'>" + data[i].caption + "<img src='" + data[i].url + "'></div>";
+        //also data[i].username is available
+        instas += insta;
+    }
+    $('#instas').html(instas);
 }
 
 
