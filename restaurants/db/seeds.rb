@@ -22,3 +22,13 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-5-km.txt")).each_li
         end
     }
 end
+
+File.open(File.join(Rails.root, "/db/seeds/location_matching-10-m.tsv")).each_line do |line|
+    fields = line.strip.split("\t")
+    url = fields[5]
+    caption = fields[7]
+    restaurant = fields[0]
+    instagram = {"url" => url, "caption" => caption, "restaurant" => restaurant}
+    Instagram.create(instagram)
+end
+
