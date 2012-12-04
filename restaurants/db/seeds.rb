@@ -28,7 +28,9 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-10-m.tsv")).each_li
     url = fields[5]
     caption = fields[7]
     restaurant = fields[0]
-    instagram = {"url" => url, "caption" => caption, "restaurant" => restaurant}
+    username = fields[4]
+    taken_at = fields[6]
+    instagram = {"url" => url, "caption" => caption, "restaurant" => restaurant, "username" => username, "taken_at" => taken_at}
     Instagram.create(instagram)
 end
 
