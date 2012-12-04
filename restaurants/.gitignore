@@ -7,6 +7,8 @@
 # Application Specific
 /app/views/layouts/application.html.erb
 /db/seeds/location_matching-5-km.txt
+/db/seeds/location_matching-10-m.tsv
+
 
 # Ignore bundler config
 /.bundle
