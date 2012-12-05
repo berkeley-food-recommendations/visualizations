@@ -7,6 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 require 'json'
 
+# Seed the database with tweets matched by location to a restaurant
 File.open(File.join(Rails.root, "/db/seeds/location_matching-5-km.txt")).each_line do |line|
     values = line.strip.split("\t")
     restaurants_tuples = values[1]
@@ -24,6 +25,7 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-5-km.txt")).each_li
     }
 end
 
+# Seed the database with instagram photos matched by location to a restaurant
 File.open(File.join(Rails.root, "/db/seeds/location_matching-10-m.tsv")).each_line do |line|
     fields = line.strip.split("\t")
     url = fields[5]
@@ -33,5 +35,15 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-10-m.tsv")).each_li
     taken_at = fields[6]
     instagram = {"url" => url, "caption" => caption, "restaurant" => restaurant, "username" => username, "taken_at" => taken_at}
     Instagram.create(instagram)
+end
+
+# Seed the database with tweets whose text includes a restaurant name
+File.open(File.join(Rails.root, "db/name_matching.tsv")).each_line do |line|
+    fields = line.strip.split("\t")
+    tweet = fields[1]
+    username = fields[2]
+    rest_name = fields[3]
+    rest_tweet = {"tweet" => text, "restaurant" => rest_name, "username" => username}
+    RestaurantTweet.create(rest_tweet)
 end
 
