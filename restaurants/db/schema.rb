@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20121203190049) do
   create_table "restaurant_tweets", :force => true do |t|
     t.string   "restaurant"
     t.text     "tweet"
+    t.string   "username"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
