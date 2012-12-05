@@ -3,6 +3,7 @@ Restaurants::Application.routes.draw do
   get "restaurants/rest_data"
   get "restaurants/get_tweets"
   get "restaurants/get_instagrams"
+  get "restaurants/rests_in_common"
     
   # The priority is based upon order of creation:
   # first created -> highest priority.
