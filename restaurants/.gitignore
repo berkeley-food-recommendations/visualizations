@@ -8,6 +8,9 @@
 /app/views/layouts/application.html.erb
 /db/seeds/location_matching-5-km.txt
 /db/seeds/location_matching-10-m.tsv
+app/assets/restaurants-geojson.json
+db/seeds/name_matching.tsv
+db/seeds/twitter_handle_matching.tsv
 
 
 # Ignore bundler config
