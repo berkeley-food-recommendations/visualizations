@@ -17,7 +17,8 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-5-km.txt")).each_li
         tweet = values[5]       
         if tweet
             text = JSON.parse(tweet)["text"]
-            rest_tweet = {"tweet" => text, "restaurant" => rest_name}
+            username = JSON.parse(tweet)["user"]["id_str"]
+            rest_tweet = {"tweet" => text, "restaurant" => rest_name, "username" => username}
             RestaurantTweet.create(rest_tweet)
         end
     }
