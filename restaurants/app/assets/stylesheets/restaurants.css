@@ -1,19 +1,33 @@
-// Place all the styles related to the Restaurants controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-html { height: 100%; }
-body { height: 100%; margin: 0; padding: 0; 
- font-family: arial; }
-#map_wrapper, #map_canvas { height: 100%; }
+body {
+  margin: 0px;
+font-family: 'Lato', sans-serif;
+}
+
+#map {
+  height: 100%;
+}
+
+circle {
+  fill: #49c5ff;
+  fill-opacity: .8;
+  stroke: black;
+  stroke-opacity: .5;
+  cursor: default;
+}
+
+circle:hover {
+  cursor: pointer;
+}
 
 #tweets_wrapper {
   position: absolute;
-  right: 160px;
+  right: 120px;
   top: 0;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.7);
   color: #000000;
-  width: 250px;
+  width: 270px;
+  padding:10px;
   overflow-x: hidden;
 }
 
@@ -22,6 +36,11 @@ h1 {
   font-size: 180%;
   font-weight: normal;
   padding-top: 20px;
+}
+
+h2 {
+  display: inline;
+  font-size: 120%;
 }
 
 #footer {
@@ -35,3 +54,34 @@ h1 {
     padding: 15px 20px;
 }
 
+#controls {
+  position: absolute;
+  left: 50px; 
+  top: 10px;
+  padding: 10px;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 7px;
+}
+
+.control {
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 80%;
+  font-weight: bold;
+}
+
+#controls .selected {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+#controls .unselected {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+#controls .control:hover {
+  background-color: rgba(255, 255, 255, 1);
+  padding: 5px;
+  cursor: pointer;
+}
