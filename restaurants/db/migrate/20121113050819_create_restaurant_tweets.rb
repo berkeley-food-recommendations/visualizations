@@ -3,6 +3,7 @@ class CreateRestaurantTweets < ActiveRecord::Migration
     create_table :restaurant_tweets do |t|
       t.string :restaurant
       t.text :tweet
+      t.text :source
       t.string :username
       t.timestamps
     end

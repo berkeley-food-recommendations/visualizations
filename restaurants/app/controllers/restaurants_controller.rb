@@ -10,7 +10,7 @@ class RestaurantsController < ApplicationController
   def get_tweets
     name = params[:rest_name]
     rest_tweets = RestaurantTweet.find_all_by_restaurant(name, :order=> 'created_at desc')
-    render :json => rest_tweets.map { |rest_tweet| {"text" => rest_tweet.tweet, "username" => rest_tweet.username } }
+    render :json => rest_tweets.map { |rest_tweet| {"text" => rest_tweet.tweet, "username" => rest_tweet.username, "source" => rest_tweet.source } }
   end
 
   def get_instagrams
