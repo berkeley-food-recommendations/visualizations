@@ -37,13 +37,22 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-10-m.tsv")).each_li
     Instagram.create(instagram)
 end
 
-# Seed the database with tweets whose text includes a restaurant name
-File.open(File.join(Rails.root, "db/name_matching.tsv")).each_line do |line|
+# helper to insert tweet data
+def insert_tweet(line)
     fields = line.strip.split("\t")
-    tweet = fields[1]
+    text = fields[1]
     username = fields[2]
     rest_name = fields[3]
     rest_tweet = {"tweet" => text, "restaurant" => rest_name, "username" => username}
     RestaurantTweet.create(rest_tweet)
 end
 
+# Seed the database with tweets whose text includes a restaurant name
+File.open(File.join(Rails.root, "db/seeds/name_matching.tsv")).each_line do |line|
+    insert_tweet(line) 
+end
+
+# Seed the database with tweets from Matt's data
+File.open(File.join(Rails.root, "db/seeds/twitter_handle_matching.tsv")).each_line do |line|
+    insert_tweet(line)
+end
