@@ -9,6 +9,7 @@ require 'json'
 
 # Seed the database with tweets matched by location to a restaurant
 File.open(File.join(Rails.root, "/db/seeds/location_matching-5-km.txt")).each_line do |line|
+    source = "geolocation"
     values = line.strip.split("\t")
     restaurants_tuples = values[1]
     re = /\([^\)]*\)/
@@ -19,7 +20,7 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-5-km.txt")).each_li
         if tweet
             text = JSON.parse(tweet)["text"]
             username = JSON.parse(tweet)["user"]["id_str"]
-            rest_tweet = {"tweet" => text, "restaurant" => rest_name, "username" => username}
+            rest_tweet = {"tweet" => text, "restaurant" => rest_name, "username" => username, "source" => source}
             RestaurantTweet.create(rest_tweet)
         end
     }
@@ -38,21 +39,21 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-10-m.tsv")).each_li
 end
 
 # helper to insert tweet data
-def insert_tweet(line)
+def insert_tweet(line, source)
     fields = line.strip.split("\t")
     text = fields[1]
     username = fields[2]
     rest_name = fields[3]
-    rest_tweet = {"tweet" => text, "restaurant" => rest_name, "username" => username}
+    rest_tweet = {"tweet" => text, "restaurant" => rest_name, "username" => username, "source" => source}
     RestaurantTweet.create(rest_tweet)
 end
 
 # Seed the database with tweets whose text includes a restaurant name
 File.open(File.join(Rails.root, "db/seeds/name_matching.tsv")).each_line do |line|
-    insert_tweet(line) 
+    insert_tweet(line, "name") 
 end
 
 # Seed the database with tweets from Matt's data
 File.open(File.join(Rails.root, "db/seeds/twitter_handle_matching.tsv")).each_line do |line|
-    insert_tweet(line)
+    insert_tweet(line, "handle")
 end
