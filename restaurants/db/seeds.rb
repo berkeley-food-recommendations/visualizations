@@ -20,7 +20,7 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-200-m.tsv")).each_l
         if tweet
             text = JSON.parse(tweet)["text"]
             username = JSON.parse(tweet)["user"]["id_str"]
-            rest_tweet = {:tweet => text, :restaurant => rest_name, :username => username, :source => 'geo'}
+            rest_tweet = {:tweet => text, :restaurant => rest_name, :username => username, :source => 'geolocation'}
             RestaurantTweet.create(rest_tweet)
         end
     }
