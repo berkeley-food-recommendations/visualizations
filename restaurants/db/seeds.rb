@@ -9,7 +9,7 @@ require 'json'
 
 counter = 0
 # Seed the database with tweets matched by location to a restaurant
-File.open(File.join(Rails.root, "/db/seeds/location_matching-200-m.txt")).each_line do |line|
+File.open(File.join(Rails.root, "/db/seeds/location_matching-200-m.tsv")).each_line do |line|
     values = line.strip.split("\t")
     restaurants_tuples = values[1]
     re = /\([^\)]*\)/
@@ -20,7 +20,7 @@ File.open(File.join(Rails.root, "/db/seeds/location_matching-200-m.txt")).each_l
         if tweet
             text = JSON.parse(tweet)["text"]
             username = JSON.parse(tweet)["user"]["id_str"]
-            rest_tweet = {:tweet => text, :restaurant => rest_name, :username => username}
+            rest_tweet = {:tweet => text, :restaurant => rest_name, :username => username, :source => 'geo'}
             RestaurantTweet.create(rest_tweet)
         end
     }
