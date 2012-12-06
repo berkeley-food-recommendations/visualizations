@@ -177,3 +177,10 @@ h2 {
   text-align: center; 
   cursor: default;
 }
+
+#search_div {
+  position: absolute;
+  z-index: 10;
+  top: 100px;
+  left: 300px;
+}

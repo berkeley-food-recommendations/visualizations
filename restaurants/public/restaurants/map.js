@@ -176,10 +176,10 @@ d3.json("restaurants-geojson.json", function(collection) {
 
   function count_tweets(popularity, obj) { 
     obj = d3.select(obj);
-    var pop_index = RADIUS_DEFAULT + (popularity/5)*3;
-    if (popularity > 400) {
+    var pop_index = RADIUS_DEFAULT + (popularity/200)*6;
+    /*if (popularity > 400) {
       pop_index = 5*3 + RADIUS_DEFAULT;
-    } else if (popularity == 0) { 
+    } else*/ if (popularity == 0) { 
       pop_index = 0;
     }
 
@@ -357,6 +357,10 @@ function find_connections() {
           display_connections(rest_data.geometry.coordinates, data);
         }
     });
+}
+
+function search(name) {
+  console.warn(name);
 }
 
   // enable onclicks

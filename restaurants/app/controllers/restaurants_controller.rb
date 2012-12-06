@@ -7,6 +7,11 @@ class RestaurantsController < ApplicationController
     render :json => rests
   end
 
+  def rest_counts
+    rests = File.read("app/assets/counts.json")
+    render :json => rests
+  end
+
   def get_tweets
     name = params[:rest_name]
     # sort by ascending since we'll seed Derrick's data first, and then the geolocated data
