@@ -37,7 +37,7 @@ d3.json("restaurants-geojson.json", function(collection) {
       .attr("cy", function(d){return project(d.geometry.coordinates)[1];})
       .attr("class", function(d){return add_and_return_id(d);})
       .style("fill", function(d){return color(d);})
-      .on("click", select_restaurant);
+      .on("click", select_this_restaurant);
 
     feat.transition()
       .attr("r", RADIUS_DEFAULT)
@@ -68,18 +68,35 @@ d3.json("restaurants-geojson.json", function(collection) {
   }
   
 
-  function select_restaurant() {
-    var new_selected = d3.select(this);
-    new_selected.transition()
-    .attr("r", RADIUS_DEFAULT * 2);
+  function select_this_restaurant() {
+    select_restaurant(this);
+    console.warn("this" + d3.select(this));
+  }
 
-    if (selected != null) {
-      selected.transition().attr("r", RADIUS_DEFAULT)
-      .each("end", function() {
+  function select_restaurant(rest) {
+    var new_selected = d3.select(rest);
+    if (view == "POPULARITY") {
+      new_selected.transition().style("fill-opacity", .8);
+      if (selected != null) {
+        selected.transition().style("fill-opacity", .8)
+        .each("end", function() {
+          selected = new_selected;
+        });
+      } else {
         selected = new_selected;
-      });
-    } else {
-      selected = new_selected;
+      }
+    } else { 
+      new_selected.transition()
+      .attr("r", RADIUS_DEFAULT * 2);
+
+      if (selected != null) {
+        selected.transition().attr("r", RADIUS_DEFAULT)
+        .each("end", function() {
+          selected = new_selected;
+        });
+      } else {
+        selected = new_selected;
+      }
     }
     display_restaurant_summary(new_selected.data()[0].properties);
   }
@@ -119,17 +136,26 @@ d3.json("restaurants-geojson.json", function(collection) {
   function popularity() {
     var pop = d3.select("#popularity");
     if (view == "POPULARITY") {
-      pop.classed("selected", false)
-      pop.classed("unselected", true)
+      pop.classed("selected", false);
+      pop.classed("unselected", true);
       reset_radius();
 
     } else {
-      pop.classed("selected", true)
-      pop.classed("unselected", false)
+      var con = d3.select("#connections");
+      pop.classed("selected", true);
+      pop.classed("unselected", false);
+      con.classed("selected", false);
+      con.classed("unselected", true);
+      view = "POPULARITY";
       popularity_sort();
     }
   }
   function popularity_sort() {
+    var summary = "<p><h2>Welcome to Popularity!</h2><br />";
+    summary += "A restaurant is popular if it has a lot of mentions. Check out"
+    summary += " some of Berkeley's most popular restaurants here!";
+    d3.select("#summary").html(summary);
+    d3.select("#tweets_wrapper").html();
     var all_restaurants = d3.selectAll("circle")[0];
     for (var i=0; i < all_restaurants.length; i++) {
       var restaurant = d3.select(all_restaurants[i]).data()[0].properties;
@@ -137,7 +163,8 @@ d3.json("restaurants-geojson.json", function(collection) {
       var pop_index = RADIUS_DEFAULT;
       if (restaurant.pop_index != null) {
         pop_index = restaurant.pop_index;
-        d3.select(all_restaurants[i]).transition().attr("r", pop_index).duration(2000);
+        d3.select(all_restaurants[i])
+        .transition().attr("r", pop_index).duration(2000);
       } else { 
         get_tweets(key, "COUNT", all_restaurants[i]);
       }
@@ -145,26 +172,26 @@ d3.json("restaurants-geojson.json", function(collection) {
       
       
     }
-    view = "POPULARITY";
   }
 
   function count_tweets(popularity, obj) { 
     obj = d3.select(obj);
-    var pop_index = RADIUS_DEFAULT + popularity;
-    if (popularity > 5) {
-      pop_index = 5 + RADIUS_DEFAULT;
+    var pop_index = RADIUS_DEFAULT + (popularity/5)*3;
+    if (popularity > 400) {
+      pop_index = 5*3 + RADIUS_DEFAULT;
     } else if (popularity == 0) { 
       pop_index = 0;
     }
 
     obj.data()[0].properties.pop_index = pop_index;
-    obj.transition().attr("r", pop_index).duration(2000);
+    obj.style("fill-opacity", .4)
+    .transition().attr("r", pop_index).duration(2000);
   }
 
   function reset_radius() { 
     var all_restaurants = d3.selectAll("circle")[0];
-    for (var i=0; i < all_restaurants[0].length; i++) {
-      all_restaurants[i].transition().attr("r", RADIUS_DEFAULT).duration(2000);
+    for (var i=0; i < all_restaurants.length; i++) {
+      d3.select(all_restaurants[i]).transition().attr("r", RADIUS_DEFAULT).duration(2000);
     }
     view = "DEFAULT";
   }
@@ -297,10 +324,31 @@ function update_instas(data) {
 
 function connections() {
   d3.selectAll("circle").on("click", find_connections);
+  var summary = "<p><h2>Welcome to Connections!</h2><br />";
+  summary += "A restaurant has a connection with another restaurant if at least one";
+  summary += "person has tweeted/instagramed both. The bigger the node, the more mutual";
+  summary += "mentions between the two restaurants! Click on a restaurant to start.";
+  d3.select("#summary").html(summary);
+  d3.select("#tweets_wrapper").html();
+  var con = d3.select("#connections");
+  var pop = d3.select("#popularity");
+    if (view == "CONNECTIONS") {
+      con.classed("selected", false);
+      con.classed("unselected", true);
+      reset_radius();
+    } else {
+      con.classed("selected", true);
+      con.classed("unselected", false);
+      pop.classed("selected", false);
+      pop.classed("unselected", true);
+      view == "CONNECTIONS";
+    }
+
 }
 
 function find_connections() {
   var rest_data = d3.select(this).data()[0];
+  select_restaurant(this);
     $.ajax( {
         url: "rests_in_common",
         data: {"rest_name": rest_data.properties.name},
