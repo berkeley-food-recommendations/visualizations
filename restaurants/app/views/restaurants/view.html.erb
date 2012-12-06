@@ -1,12 +1,23 @@
-<div id="map_wrapper""><div id="map_canvas"></div>
-<div id="tweets_wrapper"><h1>Eatin' & Tweetin'</h1>
-  <div id="tweets"></div>
-  
+<div id="map"></div>
+<div id="controls">
+  <div class="control unselected" id="popularity">
+    Popularity
+  </div>
+  <div class="control unselected" id="connections">
+    Connections
+  </div>
+
   <div id="footer">
     <a href='http://blogs.ischool.berkeley.edu/i290-abdt-s12/projects/twyelpstagram/'>about</a> | <a href='https://github.com/berkeley-food-recommendations'>github</a> 
-
-</div></div>
-<div id="instas"></div>
+  </div>
 </div>
+<div id="tweets_wrapper"><h1>Eatin' & Tweetin'</h1>
+  <div id="summary">Get a taste of what restaurants Berkeley's talking about! 
+    Click on a restaurant to get started.</div>
+  <div id="tweets" class="hide"></div>
+  
+</div>
+<div id="instas" class="hide"></div>
+<script src="map.js"></script>
 
 

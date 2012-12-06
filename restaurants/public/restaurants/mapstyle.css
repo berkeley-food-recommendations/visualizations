@@ -1,0 +1,179 @@
+body {
+  margin: 0px;
+font-family: 'Lato', sans-serif;
+}
+
+#map {
+  height: 100%;
+}
+
+a {
+  color: #63a616;
+}
+
+a:hover {
+  color: #529605;
+}
+
+circle {
+  fill: #49c5ff;
+  fill-opacity: .8;
+  stroke: black;
+  stroke-opacity: .5;
+  cursor: default;
+}
+
+circle:hover {
+  cursor: pointer;
+}
+
+#summary {
+  padding: 0 10px;
+}
+
+#tweets_wrapper {
+  position: absolute;
+  right: 120px;
+  top: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.75);
+  color: #000000;
+  width: 290px;
+  overflow-x: hidden;
+  z-index:5;
+}
+
+h1 {
+  text-align: center;
+  font-size: 180%;
+  font-weight: normal;
+  padding-top: 20px;
+}
+
+h2 {
+  display: inline;
+  font-size: 120%;
+}
+
+#footer {
+  font-size: 90%;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+#footer a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  color: #70dcff;
+}
+
+.tweet {
+  padding: 0 10px;
+  margin-bottom: 15px;
+}
+
+#controls {
+  position: absolute;
+  left: 50px; 
+  top: 10px;
+  padding: 10px;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 7px;
+}
+
+.control {
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 80%;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#controls .selected {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+#controls .unselected {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+#controls .control:hover {
+  background-color: rgba(255, 255, 255, 1);
+  padding: 5px;
+  cursor: pointer;
+}
+
+.hide { 
+  display: none;
+  -webkit-transition: opacity .3s ease-in-out;
+  -moz-transition: opacity .3s ease-in-out;
+  -o-transition: opacity .3s ease-in-out;
+  transition: opacity .3s ease-in-out;
+}
+
+.show {
+  display: block;
+  -webkit-transition: opacity .3s ease-in-out;
+  -moz-transition: opacity .3s ease-in-out;
+  -o-transition: opacity .3s ease-in-out;
+  transition: opacity .3s ease-in-out;
+}
+
+#instas { 
+  position: absolute;
+  bottom: 10px;
+  left: 0px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, .75);
+}
+
+.insta {
+  width: 200px;
+  font-size: 80%;
+  position: relative;
+  margin-left: 10px;
+  float: left;
+}
+
+.insta img {
+  width: 200px;
+}
+
+.insta .caption {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  display: table;
+  top: 0;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 0, 0, .5);
+  opacity: 1;
+  -webkit-transition: opacity .3s ease-in-out;
+  -moz-transition: opacity .3s ease-in-out;
+  -o-transition: opacity .3s ease-in-out;
+  transition: opacity .3s ease-in-out;
+
+}
+
+.insta .caption:hover {
+  opacity: 0;
+  -webkit-transition: opacity .3s ease-in-out;
+  -moz-transition: opacity .3s ease-in-out;
+  -o-transition: opacity .3s ease-in-out;
+  transition: opacity .3s ease-in-out;
+
+}
+
+.insta .caption p {
+  display: table-cell; 
+  vertical-align: middle; 
+  text-align: center; 
+  cursor: default;
+}
