@@ -78,7 +78,7 @@ d3.json("restaurants-geojson.json", function(collection) {
     if (view == "POPULARITY") {
       new_selected.transition().style("fill-opacity", .8);
       if (selected != null) {
-        selected.transition().style("fill-opacity", .8)
+        selected.transition().style("fill-opacity", .4)
         .each("end", function() {
           selected = new_selected;
         });
