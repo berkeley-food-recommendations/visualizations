@@ -23,6 +23,6 @@ class RestaurantsController < ApplicationController
     rest = params[:rest_name]
     tweet_rests_common = RestaurantTweet.rests_in_common(rest)
     render :json => tweet_rests_common
-  end 
+  end
 
 end
