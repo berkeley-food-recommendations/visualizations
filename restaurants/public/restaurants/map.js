@@ -1,6 +1,6 @@
 var RADIUS_DEFAULT = 7;
 var view = "DEFAULT";
-
+var rest_ids = {};
 var map = new L.Map("map")
     .setView(new L.LatLng(37.8717, -122.263), 15)
     .addLayer(new L.TileLayer("http://{s}.tile.cloudmade.com/1e5009f264d34383a752988047047b2c/1714/256/{z}/{x}/{y}.png"));
@@ -35,7 +35,7 @@ d3.json("restaurants-geojson.json", function(collection) {
     var feat = feature.attr("r", 0)
       .attr("cx", function(d){return project(d.geometry.coordinates)[0];})
       .attr("cy", function(d){return project(d.geometry.coordinates)[1];})
-      .attr("class", function(d){return d.properties.name;})
+      .attr("class", function(d){return add_and_return_id(d);})
       .style("fill", function(d){return color(d);})
       .on("click", select_restaurant);
 
@@ -45,7 +45,15 @@ d3.json("restaurants-geojson.json", function(collection) {
       .delay(300);
       
   }
+  function add_and_return_id(rest) {
+    var id = "rest_" + rest.properties.factual_id.split("-").join("");
+    rest_ids[rest.properties.name] = id;
+    return id;
+  }
 
+  function get_id_by_name(name) {
+    return rest_ids[name];
+  }
 
   // Use Leaflet to implement a D3 geographic projection.
   function project(x) {
@@ -161,8 +169,38 @@ d3.json("restaurants-geojson.json", function(collection) {
     view = "DEFAULT";
   }
 
-  function process_instagram_data(json_output) {
+  function display_connections(coordinates, data) {
 
+
+    var arc = d3.geo.greatArc()
+      .source(function(d) { return d.source; })
+      .target(function(d) { return d.target; });
+
+    var arcs = svg.append("g").attr("id", "arcs"); 
+    //var path = d3.geo.path().projection(project); 
+
+    var links = []; 
+
+    for (var item in data) { 
+      var id = get_id_by_name(item);
+      if (id != null) {
+        var rest = d3.select("." + id);
+        rest.transition().attr("r", data[item] * 5 + RADIUS_DEFAULT).duration(2000);
+        links.push({ 
+          source: coordinates, 
+          target: rest.data()[0].geometry.coordinates
+        }); 
+      }
+    }
+
+    arcs.selectAll("path.arc") 
+        .data(links) 
+        .attr("class", "arc")
+        .enter().append("svg:path") 
+        .attr("d", function(d) { 
+          console.warn(d);
+          return circle(arc(d)); }); 
+          
   }
 
   /*
@@ -216,31 +254,61 @@ function handle_instas(data, action, obj) {
  * Processes the most recent tweets fetched for a particular restaurant.
  */
 function update_tweets(tweets) {
-    $('#tweets').html('');
+  if (tweets != null) {
+    var tweets_div = d3.select('#tweets');
+    tweets_div.classed("hide", false);
+    tweets_div.classed("show", true);
+    tweets_div.html('');
     new_tweets = "";
     for (var i = 0; i < tweets.length; i++) {
         tweet = "<div class='tweet'>" + tweets[i].text + "</div>"
         new_tweets += tweet;
     }
-    $('#tweets').html(new_tweets);
+    tweets_div.html(new_tweets);
+  }
 }
 
 /*
  * Processes the instagram data fetched for a particular restaurant.
  */
 function update_instas(data) {
-    $('#instas').html('');
+  if (data != null) {
+    var insta_div = d3.select('#instas');
+    insta_div.classed("hide", false);
+    insta_div.classed("show", true);
+    insta_div.html('');
     instas = ""
     for (var i = 0; i < data.length; i++) {
-        insta = "<div class='insta_caption'>" + data[i].caption + "<img src='" + data[i].url + "'></div>";
-        //also data[i].username is available
-        instas += insta;
+      var caption = data[i].caption;
+      if (caption == "None") {
+        caption = "";
+      }
+      insta = "<div class='insta'><img src='" + data[i].url + "' /><br /><div class='caption'><p>"
+      + caption + "<br /> - @" + data[i].username + "</p></div></div>";
+      //also data[i].username is available
+      instas += insta;
     }
-    $('#instas').html(instas);
+    insta_div.html(instas);
+  } else { 
+    instas.classed("hide", true);
+    instas.classed("show", false);
+  }
 }
 
 function connections() {
-  
+  d3.selectAll("circle").on("click", find_connections);
+}
+
+function find_connections() {
+  var rest_data = d3.select(this).data()[0];
+    $.ajax( {
+        url: "rests_in_common",
+        data: {"rest_name": rest_data.properties.name},
+        dataType: "json",
+        success: function(data) {
+          display_connections(rest_data.geometry.coordinates, data);
+        }
+    });
 }
 
   // enable onclicks
