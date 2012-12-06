@@ -11,7 +11,13 @@ class RestaurantsController < ApplicationController
     name = params[:rest_name]
     # sort by ascending since we'll seed Derrick's data first, and then the geolocated data
     rest_tweets = RestaurantTweet.find_all_by_restaurant(name, :order=> 'created_at asc')
-    render :json => rest_tweets.map { |rest_tweet| {"text" => rest_tweet.tweet, "username" => rest_tweet.username, "source" => rest_tweet.source } }
+    render :json => rest_tweets.map { |rest_tweet|
+      {
+        :text => rest_tweet.tweet,
+        :username => rest_tweet.username,
+        :source => rest_tweet.source
+      }
+    }
   end
 
   def get_instagrams
