@@ -156,7 +156,15 @@ d3.json("restaurants-geojson.json", function(collection) {
     summary += " some of Berkeley's most popular restaurants here!";
     d3.select("#summary").html(summary);
     d3.select("#tweets_wrapper").html();
-    var all_restaurants = d3.selectAll("circle")[0];
+
+    $.ajax({
+        url: "rest_counts",
+        dataType: "json",
+        success: function(data) {
+            display_popularity(data);
+        }
+    });
+    /*var all_restaurants = d3.selectAll("circle")[0];
     for (var i=0; i < all_restaurants.length; i++) {
       var restaurant = d3.select(all_restaurants[i]).data()[0].properties;
       var key = restaurant.name;
@@ -168,24 +176,36 @@ d3.json("restaurants-geojson.json", function(collection) {
       } else { 
         get_tweets(key, "COUNT", all_restaurants[i]);
       }
+    }*/
 
-      
-      
+  }
+
+  var pop_index = d3.scale.linear().domain([0, 1, 2000]).range([0, 7, 75]);
+
+  function display_popularity(counts) {
+
+
+    for (var rest in counts) {
+      var obj = d3.select("." + rest_ids[rest]);
+      var popularity = counts[rest];
+      // if (popularity == 0) { 
+      //   pop_index = 0;
+      // }
+
+      obj.style("fill-opacity", .4)
+      .transition().attr("r", pop_index(popularity)).duration(2000);
     }
   }
 
   function count_tweets(popularity, obj) { 
     obj = d3.select(obj);
-    var pop_index = RADIUS_DEFAULT + (popularity/200)*6;
-    /*if (popularity > 400) {
-      pop_index = 5*3 + RADIUS_DEFAULT;
-    } else*/ if (popularity == 0) { 
-      pop_index = 0;
-    }
+    // if (popularity == 0) { 
+    //   pop_index = 0;
+    // }
 
-    obj.data()[0].properties.pop_index = pop_index;
     obj.style("fill-opacity", .4)
-    .transition().attr("r", pop_index).duration(2000);
+    .transition().attr("r", pop_index(popularity))
+    .duration(2000);
   }
 
   function reset_radius() { 
