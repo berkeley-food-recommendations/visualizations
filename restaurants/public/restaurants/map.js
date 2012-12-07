@@ -212,7 +212,8 @@ d3.json("restaurants-geojson.json", function(collection) {
   function reset_radius() { 
     var all_restaurants = d3.selectAll("circle")[0];
     for (var i=0; i < all_restaurants.length; i++) {
-      d3.select(all_restaurants[i]).transition().attr("r", RADIUS_DEFAULT).duration(2000);
+      var obj = d3.select(all_restaurants[i])
+      obj.transition().attr("r", RADIUS_DEFAULT).duration(2000);
     }
     view = "DEFAULT";
   }
@@ -321,9 +322,10 @@ function update_tweets(tweets) {
 function update_instas(data) {
   if (data != null) {
     var insta_div = d3.select('#instas');
+    insta_div.html('');
+
     insta_div.classed("hide", false);
     insta_div.classed("show", true);
-    insta_div.html('');
     instas = ""
     for (var i = 0; i < data.length; i++) {
       var caption = data[i].caption;
