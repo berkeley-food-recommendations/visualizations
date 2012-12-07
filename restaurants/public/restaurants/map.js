@@ -233,7 +233,7 @@ d3.json("restaurants-geojson.json", function(collection) {
       var id = get_id_by_name(item);
       if (id != null) {
         var rest = d3.select("." + id);
-        rest.style("opacity", .4).transition().attr("r", data[item] * 10 + RADIUS_DEFAULT).duration(2000);
+        rest.style("fill-opacity", .4).transition().attr("r", data[item] * 10 + RADIUS_DEFAULT).duration(2000);
         links.push({ 
           source: coordinates, 
           target: rest.data()[0].geometry.coordinates
@@ -371,6 +371,7 @@ function connections() {
 }
 
 function find_connections() {
+  reset_radius();
   var rest_data = d3.select(this).data()[0];
   select_restaurant(this);
     $.ajax( {

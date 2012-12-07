@@ -130,15 +130,24 @@ h2 {
   bottom: 10px;
   left: 0px;
   width: 100%;
+  max-width: 100%;
+  max-height: 200px;
+  overflow-x: scroll;
   background-color: rgba(0, 0, 0, .75);
 }
 
 .insta {
-  width: 200px;
-  font-size: 80%;
-  position: relative;
-  margin-left: 10px;
-  float: left;
+  position: absolute;
+  bottom: 10px;
+  left: 0px;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  max-height: 200px;
+  overflow-x: scroll;
+  background-color: rgba(0, 0, 0, .75);
+  z-index: 1;
+
 }
 
 .insta img {
