@@ -70,7 +70,6 @@ d3.json("restaurants-geojson.json", function(collection) {
 
   function select_this_restaurant() {
     select_restaurant(this);
-    console.warn("this" + d3.select(this));
   }
 
   function select_restaurant(rest) {
@@ -154,8 +153,10 @@ d3.json("restaurants-geojson.json", function(collection) {
     var summary = "<p><h2>Welcome to Popularity!</h2><br />";
     summary += "A restaurant is popular if it has a lot of mentions. Check out"
     summary += " some of Berkeley's most popular restaurants here!";
+    
     d3.select("#summary").html(summary);
-    d3.select("#tweets_wrapper").html();
+    d3.select("#tweets").html("");
+    
 
     $.ajax({
         url: "rest_counts",
@@ -193,11 +194,11 @@ d3.json("restaurants-geojson.json", function(collection) {
       // }
 
       obj.style("fill-opacity", .4)
-      .transition().attr("r", pop_index(popularity)).duration(2000);
+      .transition().attr("r", pop_index(popularity)).duration(3000);
     }
   }
 
-  function count_tweets(popularity, obj) { 
+  /*function count_tweets(popularity, obj) { 
     obj = d3.select(obj);
     // if (popularity == 0) { 
     //   pop_index = 0;
@@ -206,7 +207,7 @@ d3.json("restaurants-geojson.json", function(collection) {
     obj.style("fill-opacity", .4)
     .transition().attr("r", pop_index(popularity))
     .duration(2000);
-  }
+  }*/
 
   function reset_radius() { 
     var all_restaurants = d3.selectAll("circle")[0];
@@ -232,7 +233,7 @@ d3.json("restaurants-geojson.json", function(collection) {
       var id = get_id_by_name(item);
       if (id != null) {
         var rest = d3.select("." + id);
-        rest.transition().attr("r", data[item] * 5 + RADIUS_DEFAULT).duration(2000);
+        rest.style("opacity", .4).transition().attr("r", data[item] * 10 + RADIUS_DEFAULT).duration(2000);
         links.push({ 
           source: coordinates, 
           target: rest.data()[0].geometry.coordinates
@@ -245,7 +246,6 @@ d3.json("restaurants-geojson.json", function(collection) {
         .attr("class", "arc")
         .enter().append("svg:path") 
         .attr("d", function(d) { 
-          console.warn(d);
           return circle(arc(d)); }); 
           
   }
@@ -344,12 +344,16 @@ function update_instas(data) {
 
 function connections() {
   d3.selectAll("circle").on("click", find_connections);
+  var insta_div = d3.select("#insta_div");
+  insta_div.classed("hide", true);
+  insta_div.classed("show", false);
+  reset_radius();
   var summary = "<p><h2>Welcome to Connections!</h2><br />";
   summary += "A restaurant has a connection with another restaurant if at least one";
   summary += "person has tweeted/instagramed both. The bigger the node, the more mutual";
   summary += "mentions between the two restaurants! Click on a restaurant to start.";
   d3.select("#summary").html(summary);
-  d3.select("#tweets_wrapper").html();
+  d3.select("#tweets").html("");
   var con = d3.select("#connections");
   var pop = d3.select("#popularity");
     if (view == "CONNECTIONS") {
